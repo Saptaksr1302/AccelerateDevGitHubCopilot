@@ -209,4 +209,20 @@ public class JsonData
         }
     }
 
+    public async Task<List<Book>> LoadBooks()
+    {
+        return await LoadJson<List<Book>>(_booksPath);
+    }
+
+    public async Task<Loan?> GetLoanByBookId(int bookId)
+    {
+        await EnsureDataLoaded();
+        return Loans!.FirstOrDefault(l => l.BookItemId == bookId && l.ReturnDate == null);
+    }
+
+    public Book? SearchBookByTitle(string title)
+    {
+        return Books?.FirstOrDefault(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+    }
+
 }
